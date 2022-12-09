@@ -20,6 +20,13 @@ test('zody', () => {
 
   userProxy.username = 'life';
   userProxy.skills.foo = 142;
+  userProxy.email = undefined;
+
+  expect(userProxy).toStrictEqual({
+    username: 'life',
+    skills: { foo: 142, bar: { value: 42 } },
+    email: undefined,
+  });
 
   expect(() => {
     userProxy.username = 'cat';
@@ -32,4 +39,9 @@ test('zody', () => {
   expect(() => {
     userProxy.skills.bar.value = 40;
   }).toThrow('Number must be greater than or equal to 42');
+
+  expect(() => {
+    // @ts-expect-error ...
+    userProxy.email = true;
+  }).toThrow('Expected string, received boolean');
 });

@@ -16,7 +16,13 @@ export function zody<Schema extends ZodSchema, Data extends TypeOf<Schema>>(
       return Reflect.set(target, property, shape[property].parse(value));
     },
     get(target: Data, property: keyof Data) {
-      return zody(shape[property], target[property]);
+      const value = Reflect.get(target, property) as unknown;
+
+      if (value !== null && typeof value === 'object') {
+        return zody(shape[property], target[property]);
+      }
+
+      return value;
     },
   });
 }
