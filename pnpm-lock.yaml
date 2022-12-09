@@ -14,6 +14,7 @@ specifiers:
   typescript: ^4.9.4
   vite-plugin-vitest-typescript-assert: ^1.1.4
   vitest: ^0.25.6
+  zod: ^3.19.1
 
 devDependencies:
   '@skarab/eslint-config': 3.2.0_ha6vam6werchizxrnqvarmz2zu
@@ -29,6 +30,7 @@ devDependencies:
   typescript: 4.9.4
   vite-plugin-vitest-typescript-assert: 1.1.4_62hleffx4zst5jxpldp6hdfgaq
   vitest: 0.25.6
+  zod: 3.19.1
 
 packages:
 
@@ -4468,4 +4470,8 @@ packages:
   /yocto-queue/0.1.0:
     resolution: {integrity: sha512-rVksvsnNCdJ/ohGc6xgPwyN8eheCxsiLM8mxuE/t/mOVqJewPuO1miLpTHQiRgTKCLexL4MeAFVagts7HmNZ2Q==}
     engines: {node: '>=10'}
+    dev: true
+
+  /zod/3.19.1:
+    resolution: {integrity: sha512-LYjZsEDhCdYET9ikFu6dVPGp2YH9DegXjdJToSzD9rO6fy4qiRYFoyEYwps88OseJlPyl2NOe2iJuhEhL7IpEA==}
     dev: true
