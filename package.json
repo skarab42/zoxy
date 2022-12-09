@@ -1,0 +1,58 @@
+{
+  "name": "zody",
+  "version": "0.0.0-development",
+  "description": "Scaffolded with @skarab/skaffold",
+  "author": {
+    "name": "skarab42",
+    "email": "skarab@bluewin.ch"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/skarab42/zody.git"
+  },
+  "homepage": "https://github.com/skarab42/zody",
+  "bugs": "https://github.com/skarab42/zody/issues",
+  "funding": "https://github.com/sponsors/skarab42",
+  "license": "MIT",
+  "type": "module",
+  "exports": "./build/index.js",
+  "types": "./build/index.d.ts",
+  "private": true,
+  "publishConfig": {
+    "access": "restricted"
+  },
+  "files": [
+    "build"
+  ],
+  "scripts": {
+    "build": "tsc -p ./tsconfig.build.json",
+    "check": "tsc -p ./tsconfig.check.json",
+    "lint": "eslint --max-warnings=0 .",
+    "format": "prettier --check .",
+    "check-lint-format": "pnpm check && pnpm lint && pnpm format",
+    "test": "pnpm check-lint-format && pnpm vitest run --coverage",
+    "prepare": "npx simple-git-hooks",
+    "release": "semantic-release --branches main"
+  },
+  "devDependencies": {
+    "@skarab/eslint-config": "^3.2.0",
+    "@skarab/prettier-config": "^1.2.2",
+    "@skarab/typescript-config": "^2.1.0",
+    "@types/node": "^18.11.12",
+    "@vitest/coverage-c8": "^0.25.6",
+    "eslint": "^8.29.0",
+    "lint-staged": "^13.1.0",
+    "prettier": "^2.8.1",
+    "semantic-release": "^19.0.5",
+    "simple-git-hooks": "^2.8.1",
+    "typescript": "^4.9.4",
+    "vite-plugin-vitest-typescript-assert": "^1.1.4",
+    "vitest": "^0.25.6"
+  },
+  "engines": {
+    "node": ">=16",
+    "pnpm": ">=7"
+  },
+  "packageManager": "pnpm@7.11.0",
+  "keywords": []
+}
