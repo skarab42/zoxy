@@ -50,6 +50,9 @@
     "vitest": "^0.25.6",
     "zod": "^3.19.1"
   },
+  "peerDependencies": {
+    "zod": "*"
+  },
   "engines": {
     "node": ">=16",
     "pnpm": ">=7"
