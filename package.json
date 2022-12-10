@@ -1,5 +1,5 @@
 {
-  "name": "zody",
+  "name": "zoxy",
   "version": "0.0.0-development",
   "description": "A small type-safe object proxy around Zod to help you stay safe after your data is loaded.",
   "author": {
@@ -8,10 +8,10 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/skarab42/zody.git"
+    "url": "https://github.com/skarab42/zoxy.git"
   },
-  "homepage": "https://github.com/skarab42/zody",
-  "bugs": "https://github.com/skarab42/zody/issues",
+  "homepage": "https://github.com/skarab42/zoxy",
+  "bugs": "https://github.com/skarab42/zoxy/issues",
   "funding": "https://github.com/sponsors/skarab42",
   "license": "MIT",
   "type": "commonjs",

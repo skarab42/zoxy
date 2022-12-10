@@ -1,8 +1,8 @@
 <center>
   <h1>A small type-safe object proxy around <a href="https://github.com/colinhacks/zod">Zod</a> to help you stay safe after your data is loaded.</h1>
   <h2>Because it can be a bit verbose to modify and validate complex structures deeply after loading them.</h2>
-  <img src="example.png" title="Zod over Zody sample code" />
-  <blockquote>If you don't need to modify your data after loading, you probably don't need zody!</blockquote>
+  <img src="example.png" title="Zod over Zoxy sample code" />
+  <blockquote>If you don't need to modify your data after loading, you probably don't need zoxy!</blockquote>
 </center>
 
 <hr />
@@ -10,14 +10,14 @@
 ## Installation
 
 ```bash
-pnpm add zod zody
+pnpm add zod zoxy
 ```
 
 ## Basic usage
 
 ```ts
 import { z } from 'zod';
-import { zody } from 'zody';
+import { zoxy } from 'zoxy';
 
 const User = z.object({
   username: z.string().min(4),
@@ -29,7 +29,7 @@ const User = z.object({
   foo: z.object({ bar: z.object({ baz: z.string().max(3).optional() }).optional() }).optional(),
 });
 
-const user = zody(User, { username: 'anonymous', phone: {} });
+const user = zoxy(User, { username: 'anonymous', phone: {} });
 
 // Pass
 user.username = 'nyan';
@@ -44,7 +44,7 @@ user.phone = { home: 'xxx' }; // throw 'String must contain at least 10 characte
 
 ## Ensure default value
 
-In the example below the schema has three levels which are all optional and if you want to define the last level it can be quite verbose. Zody offers a solution to this with a little helper that makes sure that a default value is set. Simply [prefix](#options) the desired value with a '$' sign and you get a method that allows you to set a default value.
+In the example below the schema has three levels which are all optional and if you want to define the last level it can be quite verbose. Zoxy offers a solution to this with a little helper that makes sure that a default value is set. Simply [prefix](#options) the desired value with a '$' sign and you get a method that allows you to set a default value.
 
 ```ts
 const Data = z.object({
@@ -59,7 +59,7 @@ const Data = z.object({
     .optional(),
 });
 
-const data = zody(Data, {});
+const data = zoxy(Data, {});
 
 // Get `data.foo.bar.baz` if defined or set default value where needed.
 const baz = data.$foo({}).$bar({}).$baz('baz'); // 'baz'
@@ -88,13 +88,13 @@ console.log(data.foo?.bar?.baz); // 'buzz'
 ## Signature
 
 ```ts
-function zody(schema: ZodObject, data: Data, options?: ZodyOptions): Zody;
+function zoxy(schema: ZodObject, data: Data, options?: ZoxyOptions): Zoxy;
 ```
 
 ### Options
 
 ```ts
-type ZodyOptions = {
+type ZoxyOptions = {
   prefix: string; // default '$'
 };
 ```

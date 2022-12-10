@@ -12,23 +12,23 @@ type ValidProperty<Data, Property extends keyof Data> = Data[Property] extends N
   ? never
   : Property;
 
-type ZodyProxy<Data, Prefix extends string> = {
+type ZoxyProxy<Data, Prefix extends string> = {
   [Property in keyof Data as `${Prefix}${Property extends string ? ValidProperty<Data, Property> : never}`]-?: (
     value: Data[Property],
-  ) => Zody<NonNullable<Data[Property]>, Prefix>;
+  ) => Zoxy<NonNullable<Data[Property]>, Prefix>;
 };
 
-export type ZodyOptions<Prefix extends string> = {
+export type ZoxyOptions<Prefix extends string> = {
   prefix?: Prefix;
 };
 
-export type Zody<Data, Prefix extends string> = ZodyProxy<Data, Prefix> & Data;
+export type Zoxy<Data, Prefix extends string> = ZoxyProxy<Data, Prefix> & Data;
 
-export function zody<Schema extends AnyZodObject, Data extends TypeOf<Schema>, Prefix extends string = '$'>(
+export function zoxy<Schema extends AnyZodObject, Data extends TypeOf<Schema>, Prefix extends string = '$'>(
   schema: Schema,
   data: Data,
-  options?: ZodyOptions<Prefix>,
-): Zody<TypeOf<Schema>, Prefix> {
+  options?: ZoxyOptions<Prefix>,
+): Zoxy<TypeOf<Schema>, Prefix> {
   schema.parse(data);
 
   const prefix = options?.prefix ?? '$';
@@ -62,7 +62,7 @@ export function zody<Schema extends AnyZodObject, Data extends TypeOf<Schema>, P
           const value = Reflect.get(target, subProperty) as unknown;
 
           if (anyZodType instanceof ZodObject && value && typeof value === 'object') {
-            return zody(anyZodType, value, options) as Zody<AnyZodObject, Prefix>;
+            return zoxy(anyZodType, value, options) as Zoxy<AnyZodObject, Prefix>;
           }
 
           return value;
@@ -75,11 +75,11 @@ export function zody<Schema extends AnyZodObject, Data extends TypeOf<Schema>, P
         const anyZodObject = shape[property] as AnyZodObject | undefined;
 
         if (anyZodObject instanceof ZodObject) {
-          return zody(anyZodObject, currentValue, options);
+          return zoxy(anyZodObject, currentValue, options);
         }
       }
 
       return currentValue;
     },
-  }) as unknown as Zody<TypeOf<Schema>, Prefix>;
+  }) as unknown as Zoxy<TypeOf<Schema>, Prefix>;
 }

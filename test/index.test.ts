@@ -1,15 +1,15 @@
 import { expect, test } from 'vitest';
 
-import { zody } from '../source/index.js';
+import { zoxy } from '../source/index.js';
 import { userSchema } from './fixtures.js';
 
-test('zody', () => {
+test('zoxy', () => {
   const userData = {
     username: 'nyan',
     skills: { foo: 42, bar: { value: 42 } },
   };
 
-  const userProxy = zody(userSchema, userData);
+  const userProxy = zoxy(userSchema, userData);
 
   userProxy.username = 'life';
   userProxy.skills.foo = 142;
