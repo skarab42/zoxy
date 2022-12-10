@@ -8,27 +8,36 @@ import {
   ZodOptional,
 } from 'zod';
 
-type ZodyProxy<Data> = {
-  [Key in keyof Data as `$${Key extends string ? Key : never}`]-?: (value: Data[Key]) => Zody<NonNullable<Data[Key]>>;
+type ZodyProxy<Data, Prefix extends string> = {
+  [Key in keyof Data as `${Prefix}${Key extends string ? Key : never}`]-?: (
+    value: Data[Key],
+  ) => Zody<NonNullable<Data[Key]>, Prefix>;
 };
 
-export type Zody<Data> = ZodyProxy<Data> & Data;
+export type ZodyOptions<Prefix extends string> = {
+  prefix?: Prefix;
+};
 
-export function zody<Schema extends AnyZodObject, Data extends TypeOf<Schema>>(
+export type Zody<Data, Prefix extends string> = ZodyProxy<Data, Prefix> & Data;
+
+export function zody<Schema extends AnyZodObject, Data extends TypeOf<Schema>, Prefix extends string = '$'>(
   schema: Schema,
   data: Data,
-): Zody<TypeOf<Schema>> {
+  options?: ZodyOptions<Prefix>,
+): Zody<TypeOf<Schema>, Prefix> {
   schema.parse(data);
 
+  const prefix = options?.prefix ?? '$';
   const shape = schema.shape as Record<PropertyKey, ZodType<unknown, ZodTypeDef, unknown>>;
 
   return new Proxy<Data>(data, {
     set(target, property, value) {
       return Reflect.set(target, property, shape[property as keyof Data].parse(value));
     },
+    /** Prout */
     get(target, property) {
-      if (typeof property === 'string' && property.startsWith('$')) {
-        const subProperty = property.slice(1);
+      if (typeof property === 'string' && property.startsWith(prefix)) {
+        const subProperty = property.slice(prefix.length);
         let anyZodType = shape[subProperty];
 
         if (anyZodType instanceof ZodOptional) {
@@ -49,7 +58,7 @@ export function zody<Schema extends AnyZodObject, Data extends TypeOf<Schema>>(
           const value = Reflect.get(target, subProperty) as unknown;
 
           if (anyZodType instanceof ZodObject && value && typeof value === 'object') {
-            return zody(anyZodType, value) as Zody<AnyZodObject>;
+            return zody(anyZodType, value, options) as Zody<AnyZodObject, Prefix>;
           }
 
           return value;
@@ -62,11 +71,11 @@ export function zody<Schema extends AnyZodObject, Data extends TypeOf<Schema>>(
         const anyZodObject = shape[property] as AnyZodObject | undefined;
 
         if (anyZodObject instanceof ZodObject) {
-          return zody(anyZodObject, currentValue);
+          return zody(anyZodObject, currentValue, options);
         }
       }
 
       return currentValue;
     },
-  }) as unknown as Zody<TypeOf<Schema>>;
+  }) as unknown as Zody<TypeOf<Schema>, Prefix>;
 }

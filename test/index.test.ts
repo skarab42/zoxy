@@ -1,39 +1,14 @@
 import { expect, test } from 'vitest';
-import { z } from 'zod';
 
 import { zody } from '../source/index.js';
-
-const userSchema = z.object({
-  username: z.string().min(4),
-  email: z.string().optional(),
-  skills: z.object({
-    foo: z.number().min(1),
-    bar: z.object({
-      value: z.number().min(42),
-    }),
-  }),
-  foo: z
-    .object({
-      bar: z
-        .object({
-          baz: z.string().max(3).optional(),
-        })
-        .optional(),
-    })
-    .optional(),
-});
-
-const userData = {
-  username: 'nyan',
-  skills: {
-    foo: 42,
-    bar: {
-      value: 42,
-    },
-  },
-};
+import { userSchema } from './fixtures.js';
 
 test('zody', () => {
+  const userData = {
+    username: 'nyan',
+    skills: { foo: 42, bar: { value: 42 } },
+  };
+
   const userProxy = zody(userSchema, userData);
 
   userProxy.username = 'life';
