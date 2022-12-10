@@ -1,28 +1,31 @@
-import type { TypeOf, ZodSchema, ZodType, ZodTypeDef } from 'zod';
+import { type AnyZodObject, type TypeOf, type ZodType, type ZodTypeDef, ZodObject } from 'zod';
 
-type DataSchema<Data> = { shape: Record<keyof Data, ZodType<unknown, ZodTypeDef, unknown>> };
+export type Zody<Schema extends AnyZodObject> = TypeOf<Schema>;
 
-export function zody<Schema extends ZodSchema, Data extends TypeOf<Schema>>(
+export function zody<Schema extends AnyZodObject, Data extends TypeOf<Schema>>(
   schema: Schema,
   data: Data,
-): TypeOf<Schema> {
+): Zody<Schema> {
   schema.parse(data);
 
-  const { shape } = schema as unknown as DataSchema<Data>;
+  const shape = schema.shape as Record<PropertyKey, ZodType<unknown, ZodTypeDef, unknown>>;
 
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-return
   return new Proxy<Data>(data, {
-    set(target: Data, property: keyof Data, value: unknown) {
-      return Reflect.set(target, property, shape[property].parse(value));
+    set(target, property, value) {
+      return Reflect.set(target, property, shape[property as keyof Data].parse(value));
     },
-    get(target: Data, property: keyof Data) {
-      const value = Reflect.get(target, property) as unknown;
+    get(target, property) {
+      const currentValue = Reflect.get(target, property) as unknown;
 
-      if (value !== null && typeof value === 'object') {
-        return zody(shape[property], target[property]);
+      if (currentValue && typeof currentValue === 'object') {
+        const anyZodObject = shape[property] as AnyZodObject | undefined;
+
+        if (anyZodObject instanceof ZodObject) {
+          return zody(anyZodObject, currentValue);
+        }
       }
 
-      return value;
+      return currentValue;
     },
-  });
+  }) as unknown as Zody<Schema>;
 }
