@@ -26,9 +26,9 @@
     },
     "./package.json": "./package.json"
   },
-  "private": true,
+  "private": false,
   "publishConfig": {
-    "access": "restricted"
+    "access": "public"
   },
   "files": [
     "build"
