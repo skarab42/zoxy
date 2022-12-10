@@ -8,10 +8,14 @@ import {
   ZodOptional,
 } from 'zod';
 
+type ValidProperty<Data, Property extends keyof Data> = Data[Property] extends NonNullable<Data[Property]>
+  ? never
+  : Property;
+
 type ZodyProxy<Data, Prefix extends string> = {
-  [Key in keyof Data as `${Prefix}${Key extends string ? Key : never}`]-?: (
-    value: Data[Key],
-  ) => Zody<NonNullable<Data[Key]>, Prefix>;
+  [Property in keyof Data as `${Prefix}${Property extends string ? ValidProperty<Data, Property> : never}`]-?: (
+    value: Data[Property],
+  ) => Zody<NonNullable<Data[Property]>, Prefix>;
 };
 
 export type ZodyOptions<Prefix extends string> = {
