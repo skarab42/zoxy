@@ -13,7 +13,7 @@
 pnpm add zod zoxy
 ```
 
-## Basic usage
+## Basic usage ([live demo])
 
 ```ts
 import { z } from 'zod';
@@ -102,3 +102,5 @@ type ZoxyOptions = {
 ---
 
 Scaffolded with [@skarab/skaffold](https://www.npmjs.com/package/@skarab/skaffold)
+
+[live demo]: https://www.typescriptlang.org/play?#code/FASwtgDg9gTgLgAgN4IF4IL4IGYymBAclSgBNCBuUSWRFEgDwE9Mc8DipnLhgBjKADsAzogCqwgKYwEAXjQA6KACMAVpL5wAFEmAIEAVykxBAQzCSAXItEwQggOZaAlArD2tAFmcAaPQkkwUxAAG2tUBVt7J1dA4JCXJQg4ECFTBN9-CAALIStFFXVNHX99XItwyLg7R0T3QS0ARgAGVyCGLwAmVyhk1LMMv319AHdYAGtKqNq2jxa20w7PbqSUtMH-DEz9bCgoSsKNbRRlUxgDtSOdBFPUKerousWtAGYevvWXTHe1ga+t1b9dIuPxbKj8ISiQzGORoLhMLQSaQ+ZDQ6RmCpEUyCIRMMBQIyEFE5PLWJBYMG8AD0VIQAAVTMJhMAjNIFKyTOZJLDCIImNieByFHFQrCDIJSJJsPZJKQqEKSYJJApytz5IQAKxahDNZYIPXLQXGBSKtWo1XWTXa3WdfW2w0osYwSZELUanWdTwIT3ezyETDgmkIABi8RZxpFIR5DBjlAQQbg2TwIyIAElBAA3dIgUgBIKhQjhtmm2EoC1EGMMf0YCjx2mJ5NEADKD0cCDARkQAkEcGCggQpkQIUkjMQLQQfGyZ1MmmkWmEzkIQA
