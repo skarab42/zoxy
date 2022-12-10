@@ -12,10 +12,28 @@ const userSchema = z.object({
       value: z.number().min(42),
     }),
   }),
+  foo: z
+    .object({
+      bar: z
+        .object({
+          baz: z.string().max(3).optional(),
+        })
+        .optional(),
+    })
+    .optional(),
 });
 
+const userData = {
+  username: 'nyan',
+  skills: {
+    foo: 42,
+    bar: {
+      value: 42,
+    },
+  },
+};
+
 test('zody', () => {
-  const userData = { username: 'nyan', skills: { foo: 42, bar: { value: 42 } } };
   const userProxy = zody(userSchema, userData);
 
   userProxy.username = 'life';
@@ -44,4 +62,38 @@ test('zody', () => {
     // @ts-expect-error ...
     userProxy.email = true;
   }).toThrow('Expected string, received boolean');
+
+  // ---
+
+  expect(() => {
+    userProxy.$foo({}).$bar({}).$baz('bazbaz');
+  }).toThrow('String must contain at most 3 character(s)');
+
+  const baz = userProxy.$foo({}).$bar({}).$baz('baz');
+
+  expect(baz).toBe('baz');
+
+  expect(userProxy).toStrictEqual({
+    username: 'life',
+    skills: { foo: 142, bar: { value: 42 } },
+    email: undefined,
+    foo: { bar: { baz: 'baz' } },
+  });
+
+  // ---
+
+  userProxy.$foo({}).$bar({}).baz = 'biz';
+
+  expect(userProxy.foo?.bar?.baz).toBe('biz');
+
+  expect(userProxy).toStrictEqual({
+    username: 'life',
+    skills: { foo: 142, bar: { value: 42 } },
+    email: undefined,
+    foo: { bar: { baz: 'biz' } },
+  });
+
+  expect(() => {
+    userProxy.$foo({}).$bar({}).baz = 'bazbaz';
+  }).toThrow('String must contain at most 3 character(s)');
 });
