@@ -14,9 +14,18 @@
   "bugs": "https://github.com/skarab42/zody/issues",
   "funding": "https://github.com/sponsors/skarab42",
   "license": "MIT",
-  "type": "module",
-  "exports": "./build/index.js",
+  "type": "commonjs",
+  "main": "./build/index.js",
   "types": "./build/index.d.ts",
+  "module": "./build/mjs/index.js",
+  "exports": {
+    ".": {
+      "require": "./build/index.js",
+      "types": "./build/index.d.ts",
+      "import": "./build/mjs/index.js"
+    },
+    "./package.json": "./package.json"
+  },
   "private": true,
   "publishConfig": {
     "access": "restricted"
@@ -25,7 +34,9 @@
     "build"
   ],
   "scripts": {
-    "build": "tsc -p ./tsconfig.build.json",
+    "build:mjs": "tsc -p ./tsconfig.build-mjs.json",
+    "build:cjs": "tsc -p ./tsconfig.build-cjs.json",
+    "build": "pnpm build:mjs && pnpm build:cjs",
     "check": "tsc -p ./tsconfig.check.json",
     "lint": "eslint --max-warnings=0 .",
     "format": "prettier --check .",
