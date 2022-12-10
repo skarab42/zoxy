@@ -1,7 +1,7 @@
 {
   "name": "zody",
   "version": "0.0.0-development",
-  "description": "Scaffolded with @skarab/skaffold",
+  "description": "A small type-safe object proxy around Zod to help you stay safe after your data is loaded.",
   "author": {
     "name": "skarab42",
     "email": "skarab@bluewin.ch"
@@ -58,5 +58,12 @@
     "pnpm": ">=7"
   },
   "packageManager": "pnpm@7.11.0",
-  "keywords": []
+  "keywords": [
+    "zod",
+    "proxy",
+    "object",
+    "type-safe",
+    "typescript",
+    "validation"
+  ]
 }
