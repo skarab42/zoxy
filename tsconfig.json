@@ -1,9 +1,4 @@
 {
   "extends": "@skarab/typescript-config",
-  "exclude": ["build", "coverage"],
-  "compilerOptions": {
-    "noEmit": true,
-    "module": "commonjs",
-    "target": "es2015"
-  }
+  "exclude": ["build", "coverage"]
 }

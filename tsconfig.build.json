@@ -1,9 +1,9 @@
 {
   "extends": "./tsconfig.json",
-  "include": ["source"],
+  "include": ["./source"],
   "compilerOptions": {
-    "noEmit": false,
+    "module": "es2015",
     "outDir": "./build",
-    "module": "commonjs"
+    "noEmit": false
   }
 }
